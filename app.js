@@ -29,6 +29,7 @@ app.post("/todos", (req,res) =>{
     res.status(201).json(todo); // Sets HTTP status code to created (Meaning the the todo object has been successfully created on the server side)
 });
 
+// Delete endpoint to delete todo item
 app.delete("/todos/:id", (req,res) => {
     const id = parseInt(req.params.id); // extracts id from parameter and converts it into a int
     const index = todos.findIndex((t) => t.id === id); // finds the index of the todos item with the id provided in the request
@@ -39,7 +40,7 @@ app.delete("/todos/:id", (req,res) => {
     res.status(204).send(); // sends status 204 (no content) which means delete operation was succesful
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000; // Server is running on port 3000 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
