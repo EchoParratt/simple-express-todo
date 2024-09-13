@@ -5,9 +5,9 @@ interface Todo { // This interface defines the structure of a todo object
   }
 
   const API_URL = "http://localhost:3000/todos";
-  const todoForm = document.getElementById("todo-form") 
+  const todoForm = document.getElementById("todo-form") as HTMLFormElement // Since it's typescript we need to specify the exact type of each DOM element retrieved
   const todoInput = document.getElementById("todo-input") as HTMLInputElement
-  const todoList = document.getElementById("todo-list")
+  const todoList = document.getElementById("todo-list") as HTMLElement
 
   // Here we are adding an event listener to the form element (todoForm) to listen for 
   // a sumbit event. ie When the Add button is clicked, this function will run
@@ -36,6 +36,14 @@ interface Todo { // This interface defines the structure of a todo object
     const response = await fetch(API_URL)
     const todos: Todo[] = await response.json()
     return todos
+  }
+
+  function renderTodos(todos: Todo[]): void {
+    todoList.innerHTML = ''
+    todos.forEach((todo) => {
+        const todoElement = createTodoElement(todo);
+        todoList.appendChild(todoElement)
+    })
   }
 
 
