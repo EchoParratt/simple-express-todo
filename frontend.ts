@@ -46,6 +46,50 @@ interface Todo { // This interface defines the structure of a todo object
     })
   }
 
+  // This function creates a HTMLDivElement using the todo object passed in
+  function createTodoElement(todo: Todo) : HTMLDivElement {
+    const div = document.createElement("div") // Creates a new div element in the DOM
+    div.classList.add("todo") // Adds css class to todo in div
+    div.innerHTML = `
+          <span class="${todo.completed ? "completed" : ""}">${ // Checks the complete property of the todo, if true added to span
+            todo.title
+          }</span>
+            <div>
+              <button onclick"toggleCompleted(${todo.id})">${ // Creates button, when clicked toggleCompleted function will be called with the todo id
+                todo.completed ? "Uncomplete" : "Complete" // Determines the text withtin the button 
+              }</button>
+                  <button onclick"deleteTodo(${todo.id})">Delete</button> 
+                  </div>
+              `
+              // Above is delete button which calls deleteTodo with the todo.id
+            return div
+  }
 
+    //createTodo sends a POST request to the server to create a new Todo
+    async function createTodo(todo: Omit<Todo, "id" | "completed">): Promise<void> {
+      await fetch(API_URL, {
+        method: "POST",
+        body: JSON.stringify(todo), // Convert Todo object to json and send in the request body
+        headers: {"Content-Type": "application/json"}, // Specifies that the request body is sent in JSON format
+      })
+    }
 
+    // deleteTodo sends a DELETE request to the API endpoint
+    async function deleteTodo(id:number): Promise<void> {
+      await fetch(`${API_URL}/${id}`, { // Dynamically creates URL for the request
+        method: "DELETE"
+      })
+      loadTodos()
+    }
+
+    // getTodo sends a GET request to retrieve a specfic todo with the given ID
+    async function getTodo(id:number): Promise<Todo> {
+      const response = await fetch(`${API_URL}/${id}`)
+      const todo: Todo = await response.json() // Declares a constant todo that will store the parsed JSON Data
+                                              // : Todo is a ts annotation that says todo must match Todo interface
+      return todo
+    }
+
+    // Didnt add a updateTodo (PUT) since I didnt make one in the backend yet
+    // might add one later but for now just trying to make a working app
 
