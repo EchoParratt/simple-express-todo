@@ -65,6 +65,9 @@ interface Todo { // This interface defines the structure of a todo object
             return div
   }
 
+    // Below are all functions that interact with the serverside using (POST,DELETE,GET)
+
+
     //createTodo sends a POST request to the server to create a new Todo
     async function createTodo(todo: Omit<Todo, "id" | "completed">): Promise<void> {
       await fetch(API_URL, {
