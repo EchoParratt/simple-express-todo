@@ -47,23 +47,39 @@ interface Todo { // This interface defines the structure of a todo object
   }
 
   // This function creates a HTMLDivElement using the todo object passed in
-  function createTodoElement(todo: Todo) : HTMLDivElement {
-    const div = document.createElement("div") // Creates a new div element in the DOM
-    div.classList.add("todo") // Adds css class to todo in div
+  function createTodoElement(todo: Todo): HTMLDivElement {
+    const div = document.createElement("div"); // Creates a new div element in the DOM
+    div.classList.add("todo"); // Adds CSS class to the todo div
+  
+    // Set the innerHTML for the todo element
     div.innerHTML = `
-          <span class="${todo.completed ? "completed" : ""}">${ // Checks the complete property of the todo, if true added to span
-            todo.title
-          }</span>
-            <div>
-              <button onclick"toggleCompleted(${todo.id})">${ // Creates button, when clicked toggleCompleted function will be called with the todo id
-                todo.completed ? "Uncomplete" : "Complete" // Determines the text withtin the button 
-              }</button>
-                  <button onclick"deleteTodo(${todo.id})">Delete</button> 
-                  </div>
-              `
-              // Above is delete button which calls deleteTodo with the todo.id
-            return div
+      <span class="${todo.completed ? "completed" : ""}">
+        ${todo.title}
+      </span>
+      <div>
+        <button class="complete-btn">
+          ${todo.completed ? "Uncomplete" : "Complete"}
+        </button>
+        <button class="delete-btn">Delete</button>
+      </div>
+    `;
+  
+    // Add event listeners for the buttons programmatically
+    const completeButton = div.querySelector(".complete-btn") as HTMLButtonElement;
+    const deleteButton = div.querySelector(".delete-btn") as HTMLButtonElement;
+  
+    // Check if the buttons exist before adding event listeners
+   
+  
+    if (deleteButton) {
+      deleteButton.addEventListener("click", () => deleteTodo(todo.id));
+    }
+
+    // Add completebutton eventlistener once toggle completed is written
+  
+    return div;
   }
+  
 
     // Below are all functions that interact with the serverside using (POST,DELETE,GET)
 

@@ -1,3 +1,6 @@
+const serveStatic = require("serve-static");
+
+
 // require dependencies so they can be used throughout this code
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -5,7 +8,9 @@ const bodyParser = require("body-parser");
 // Init express.js server and save as a variable (refer to as app)
 const app = express();
 
+
 app.use(bodyParser.json());
+app.use(serveStatic("public"));
 let todos = []; // In-memory storage for todos 
 
 // Get endpoint to fetch all todo items 
