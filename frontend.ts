@@ -4,7 +4,7 @@ interface Todo { // This interface defines the structure of a todo object
     completed: boolean;
   }
 
-  const API_URL = "http://localhost:3000/todos";
+  const API_URL = "http://localhost:3000/api/todos";
   const todoForm = document.getElementById("todo-form") as HTMLFormElement // Since it's typescript we need to specify the exact type of each DOM element retrieved
   const todoInput = document.getElementById("todo-input") as HTMLInputElement
   const todoList = document.getElementById("todo-list") as HTMLElement
@@ -75,6 +75,10 @@ interface Todo { // This interface defines the structure of a todo object
       deleteButton.addEventListener("click", () => deleteTodo(todo.id));
     }
 
+    if (completeButton) {
+      completeButton.addEventListener("click", () => toggleCompleted(todo.id))
+    }
+
     // Add completebutton eventlistener once toggle completed is written
   
     return div;
@@ -101,12 +105,31 @@ interface Todo { // This interface defines the structure of a todo object
       loadTodos()
     }
 
+    async function toggleCompleted(id:number): Promise<void> {
+      const todo = await getTodo(id)
+      const updatedTodo: Todo = {...todo, completed: !todo.completed}
+      if(updatedTodo.completed){
+        await deleteTodo(updatedTodo.id)
+      }
+      else{
+        await updateTodo(todo)
+      loadTodos()}
+    }
+
     // getTodo sends a GET request to retrieve a specfic todo with the given ID
     async function getTodo(id:number): Promise<Todo> {
       const response = await fetch(`${API_URL}/${id}`)
       const todo: Todo = await response.json() // Declares a constant todo that will store the parsed JSON Data
                                               // : Todo is a ts annotation that says todo must match Todo interface
       return todo
+    }
+
+    async function updateTodo(todo: Todo): Promise<void> {
+      await fetch(`${API_URL}/${todo.id}`, {
+        method: "PUT",
+        body: JSON.stringify(todo),
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
     // Didnt add a updateTodo (PUT) since I didnt make one in the backend yet
