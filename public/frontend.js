@@ -100,6 +100,7 @@ function deleteTodo(id) {
         loadTodos();
     });
 }
+// New function to ensure complete button functionality
 function toggleCompleted(id) {
     return __awaiter(this, void 0, void 0, function* () {
         const todo = yield getTodo(id);
@@ -131,5 +132,3 @@ function updateTodo(todo) {
         });
     });
 }
-// Didnt add a updateTodo (PUT) since I didnt make one in the backend yet
-// might add one later but for now just trying to make a working app
