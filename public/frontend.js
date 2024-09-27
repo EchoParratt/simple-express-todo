@@ -12,6 +12,10 @@ const API_URL = "http://localhost:3000/api/todos";
 const todoForm = document.getElementById("todo-form"); // Since it's typescript we need to specify the exact type of each DOM element retrieved
 const todoInput = document.getElementById("todo-input");
 const todoList = document.getElementById("todo-list");
+// Load the todos as soon as the page loads
+window.addEventListener('DOMContentLoaded', (event) => {
+    loadTodos(); // Fetches and renders the todos when the DOM is fully loaded
+});
 // Here we are adding an event listener to the form element (todoForm) to listen for 
 // a sumbit event. ie When the Add button is clicked, this function will run
 // (e: Event) is the event object e that is passed to the function
@@ -100,7 +104,6 @@ function deleteTodo(id) {
         loadTodos();
     });
 }
-// New function to ensure complete button functionality
 function toggleCompleted(id) {
     return __awaiter(this, void 0, void 0, function* () {
         const todo = yield getTodo(id);
@@ -132,3 +135,5 @@ function updateTodo(todo) {
         });
     });
 }
+// Didnt add a updateTodo (PUT) since I didnt make one in the backend yet
+// might add one later but for now just trying to make a working app

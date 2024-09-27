@@ -9,6 +9,12 @@ interface Todo { // This interface defines the structure of a todo object
   const todoInput = document.getElementById("todo-input") as HTMLInputElement
   const todoList = document.getElementById("todo-list") as HTMLElement
 
+  // Load the todos as soon as the page loads
+window.addEventListener('DOMContentLoaded', async (event) => {
+  loadTodos()  // Fetches and renders the todos when the DOM is fully loaded
+  console.log("was hit")
+});
+
   // Here we are adding an event listener to the form element (todoForm) to listen for 
   // a sumbit event. ie When the Add button is clicked, this function will run
   // (e: Event) is the event object e that is passed to the function
